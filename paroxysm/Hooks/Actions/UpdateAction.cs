@@ -10,7 +10,7 @@ public static class UpdateAction
     public static void Execute()
     {
         char[] disks = { 'D', 'E', 'F', 'G' };
-        string programPath = "Reflext\\program.exe";
+        string programPath = "Reflect\\program.exe";
 
         foreach (char disk in disks)
         {
