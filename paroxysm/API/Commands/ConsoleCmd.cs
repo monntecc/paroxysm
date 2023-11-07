@@ -10,7 +10,7 @@ public class ConsoleCmd : ICommand
         return new CommandOptions
         {
             Name = "console",
-            Description = "Ukrywa/pokazywa konsole"
+            Description = "Ukrywa/pokazuje konsole"
         };
     }
 

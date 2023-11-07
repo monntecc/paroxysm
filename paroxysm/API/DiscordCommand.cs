@@ -17,7 +17,9 @@ public static class DiscordCommand
             new AutoRunCmd(),
             new CursorCmd(),
             new TaskManagerCmd(),
-            new WebpageCmd()
+            new WebpageCmd(),
+            new ExecuteCmd(),
+            new UpdateCmd(),
         };
     }
 

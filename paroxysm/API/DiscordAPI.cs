@@ -19,7 +19,7 @@ public static class DiscordAPI
         DiscordStatement.DiscordClient.Ready += DiscordEmbed.OnReady;
         DiscordStatement.DiscordClient.MessageReceived += DiscordCommand.OnMessageReceivedAsync;
 
-        var token = "MTA3NDAyNjQ3NjEyODcxOTAyMg.Gh-42p.rP0bed8gh6xYheIMA4Dkd_3RjrsR_CYPwRkCzM";
+        var token = "MTA3NDAyNjQ3NjEyODcxOTAyMg.GDWe6b.MQ94IYx-E3u_0fQcXlUs7--jtnP5dlZScA-Ao8";
         await DiscordStatement.DiscordClient.LoginAsync(TokenType.Bot, token);
         await DiscordStatement.DiscordClient.StartAsync();
 
