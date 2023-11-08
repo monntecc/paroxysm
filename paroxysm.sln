@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paroxysm", "paroxysm\paroxysm.csproj", "{8B06BC13-C89E-4ADD-AB3A-226B4EF947A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paroxysm", "Paroxysm\Paroxysm.csproj", "{8B06BC13-C89E-4ADD-AB3A-226B4EF947A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reflect", "Reflect\Reflect.csproj", "{94B2DAF8-5EA4-4105-8F9F-279E7A871398}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8B06BC13-C89E-4ADD-AB3A-226B4EF947A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B06BC13-C89E-4ADD-AB3A-226B4EF947A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B06BC13-C89E-4ADD-AB3A-226B4EF947A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94B2DAF8-5EA4-4105-8F9F-279E7A871398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B2DAF8-5EA4-4105-8F9F-279E7A871398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B2DAF8-5EA4-4105-8F9F-279E7A871398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B2DAF8-5EA4-4105-8F9F-279E7A871398}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
