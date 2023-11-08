@@ -1,13 +1,12 @@
-﻿using Paroxysm.Debug;
+﻿using System.Diagnostics;
+using Discord;
 using Paroxysm.Tools;
-using System.Diagnostics;
-using System.IO;
 
 namespace Paroxysm.Hooks.Actions;
 
 public static class UpdateAction
 {
-    public static void Follow()
+    public static Embed Follow()
     {
         char[] disks = { 'D', 'E', 'F', 'G' };
         const string programPath = @"Reflect\Reflect.exe";
@@ -24,12 +23,12 @@ public static class UpdateAction
                 Arguments = "update"
             };
 
-            Logger.CreateEmbed(ELoggerState.Debug, $"Rozpoczęto aktualizacje z pliku {path}");
             Process.Start(startInfo);
-            return;
+            return EmbedCreator.CreateWithText(Color.Gold, "Command was successfully executed",
+                "Program update has been started...", Environment.UserName, null);
         }
 
-        Logger.CreateEmbed(ELoggerState.Error,
-            $"Nie odnaleziono pliku do ścieżki {programPath} (dyski : {string.Join(',', disks)})");
+        return EmbedCreator.CreateWithText(Color.Red, "Command was successfully executed",
+            $"Cannot find program path: {programPath} in disks: {string.Join(',', disks)}", Environment.UserName, null);
     }
 }

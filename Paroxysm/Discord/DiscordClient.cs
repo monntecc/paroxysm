@@ -3,11 +3,11 @@ using Discord.WebSocket;
 
 namespace Paroxysm.API;
 
-public static class DiscordEmbed
+public static class DiscordClient
 {
     private static async Task<ITextChannel> PrepareTextChannel(SocketGuild guild)
     {
-        ulong categoryId = 1170142610141216838;
+        const ulong categoryId = 1170142610141216838;
         var existCategory = guild.CategoryChannels.Any(cat => cat.Id == categoryId);
         if (!existCategory)
         {
@@ -43,9 +43,15 @@ public static class DiscordEmbed
 
         foreach (var command in DiscordCommand.GetCommands())
         {
+            // Initialize slash commands
+            var slashCommand = command.CreateSlashCommand();
+            await guild.CreateApplicationCommandAsync(slashCommand.Build());
+            Console.WriteLine($"\tSlashCommand {command.Options().Name} has been initialized.");
+
+            // Embed commands info
             builder.AddField(x =>
             {
-                x.Name = $"!{command.Options().Name} {command.Options().Parameters}";
+                x.Name = $"/{command.Options().Name}";
                 x.Value = command.Options().Description;
                 x.IsInline = true;
             });

