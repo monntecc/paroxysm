@@ -1,5 +1,6 @@
 ﻿using Paroxysm.API;
 using Paroxysm.Hooks.Actions;
+using Paroxysm.Tools;
 
 namespace Paroxysm;
 
@@ -12,5 +13,8 @@ internal abstract class Program
 
         // Initialize discord bot
         DiscordAPI.Init().GetAwaiter().GetResult();
+
+        // Monitor process 
+        MonitorProcess.Init();
     }
 }
