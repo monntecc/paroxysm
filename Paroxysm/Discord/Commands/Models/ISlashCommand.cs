@@ -17,15 +17,16 @@ public interface ISlashCommand
         SlashCommandBuilder commandBuilder = new();
         commandBuilder.WithName(Options().Name);
         commandBuilder.WithDescription(Options().Description);
-        
+
         var parameters = Options().Params ?? null;
 
         if (parameters is null) return commandBuilder;
 
-        var commandOptions = new List<ApplicationCommandOptionChoiceProperties>();        
+        var commandOptions = new List<ApplicationCommandOptionChoiceProperties>();
         if (parameters is { IsChoiceEnable: true, ChoiceOptions: not null })
         {
-            commandOptions.AddRange(parameters.ChoiceOptions.Select(choiceOption => new ApplicationCommandOptionChoiceProperties { Value = choiceOption, Name = choiceOption }));
+            commandOptions.AddRange(parameters.ChoiceOptions.Select(choiceOption =>
+                new ApplicationCommandOptionChoiceProperties { Value = choiceOption, Name = choiceOption }));
         }
 
         commandBuilder.AddOption(new SlashCommandOptionBuilder
