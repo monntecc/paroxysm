@@ -1,9 +1,9 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Paroxysm.Tools;
-using Paroxysm.Discord;
+using Paroxysm.API;
+using Paroxysm.Discord.Events;
 
-namespace Paroxysm.API;
+namespace Paroxysm.Discord;
 
 public static class DiscordClient
 {
@@ -35,14 +35,17 @@ public static class DiscordClient
     {
         var guild = DiscordStatement.DiscordClient.GetGuild(1065243544580792391);
         var channel = await PrepareTextChannel(guild);
-        MonitorProcess.webhook = await DiscordWebhook.GetOrCreateWebhookAsync(channel, "Datura");
-        MonitorProcess.SendReadyMessage();
+        
+        // Webhook creation
+        OnBeforeCloseEvent.Webhook = await DiscordWebhook.GetOrCreateWebhookAsync(channel, "Datura");
+        OnBeforeCloseEvent.SendReadyMessage();
 
         var builder = new EmbedBuilder
         {
             Title = Environment.UserName,
             Color = Color.Green,
-            Description = "Możesz zmienić nazwe tego kanału, lecz nie ruszaj Topicu kanału. Jeśli zmienisz jedno i drugie to bot stworzy nowy kanał",
+            Description =
+                "Możesz zmienić nazwe tego kanału, lecz nie ruszaj Topicu kanału. Jeśli zmienisz jedno i drugie to bot stworzy nowy kanał",
             Timestamp = DateTime.UtcNow
         };
 
@@ -65,6 +68,4 @@ public static class DiscordClient
         DiscordStatement.CurrentChannel = channel;
         await channel.SendMessageAsync("<@&1170147843252703342>", false, builder.Build());
     }
-
-    
 }
