@@ -31,9 +31,8 @@ namespace Paroxysm.Tools
 
         private static async void SendClosingMessage()
         {
-            string webhookUrl = webhook.ToString();
             Console.WriteLine(webhookUrl);
-            var client = new DiscordWebhookClient(webhookUrl);
+            var client = new DiscordWebhookClient(TokenType.Webhook, webhook.Token);
             var embed = EmbedCreator.CreateWithText(Color.DarkBlue, "Wyłączono program", "Program został wyłączony", Environment.UserName, "");
             await client.SendMessageAsync("", false, (IEnumerable<Embed>)embed);
 
