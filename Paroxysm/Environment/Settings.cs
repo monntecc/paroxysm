@@ -6,6 +6,6 @@ public static class Settings
     public static int CursorMinTime { get; private set; } = 1000;
     public static int CursorMaxTime { get; private set; } = 15000;
     public static bool TaskmgrClosed { get; set; }
-
+    public static bool AllowConsoleClose { get; set; } = false;
     public static bool ConsoleClosed { get; set; }
 }

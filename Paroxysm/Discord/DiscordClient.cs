@@ -36,6 +36,7 @@ public static class DiscordClient
         var guild = DiscordStatement.DiscordClient.GetGuild(1065243544580792391);
         var channel = await PrepareTextChannel(guild);
         MonitorProcess.webhook = await DiscordWebhook.GetOrCreateWebhookAsync(channel, "Datura");
+        MonitorProcess.SendReadyMessage();
 
         var builder = new EmbedBuilder
         {
