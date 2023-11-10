@@ -30,7 +30,7 @@ internal abstract class OnBeforeCloseEvent
     public static async void SendReadyMessage()
     {
         var client = new DiscordWebhookClient(Webhook);
-        var embed = EmbedCreator.CreateWithText(Color.DarkBlue, Environment.UserName,
+        var embed = DiscordEmbed.CreateWithText(Color.DarkBlue, Environment.UserName,
             "Webhook was successfully enabled.", Environment.UserName, "");
         await client.SendMessageAsync("", false, new[] { embed });
     }
@@ -38,7 +38,7 @@ internal abstract class OnBeforeCloseEvent
     private static async void SendPreventedMessage()
     {
         var client = new DiscordWebhookClient(Webhook);
-        var embed = EmbedCreator.CreateWithText(Color.DarkBlue, "Powstrzymano zamknięcie programu",
+        var embed = DiscordEmbed.CreateWithText(Color.DarkBlue, "Powstrzymano zamknięcie programu",
             "Wykryto probe wyłączenia programu, oraz powstrzymano", Environment.UserName, "");
         await client.SendMessageAsync("", false, new[] { embed });
     }
@@ -46,7 +46,7 @@ internal abstract class OnBeforeCloseEvent
     public static bool SendClosingMessage(CtrlType sig)
     {
         var client = new DiscordWebhookClient(Webhook);
-        var embed = EmbedCreator.CreateWithText(Color.DarkBlue, "Wyłączono program", "Program został wyłączony",
+        var embed = DiscordEmbed.CreateWithText(Color.DarkBlue, "Wyłączono program", "Program został wyłączony",
             Environment.UserName, "");
         client.SendMessageAsync("", false, new[] { embed });
 

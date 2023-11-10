@@ -1,8 +1,8 @@
 ﻿using Discord;
 
-namespace Paroxysm.Tools;
+namespace Paroxysm.Discord;
 
-public static class EmbedCreator
+public static class DiscordEmbed
 {
     public static Embed CreateWithText(Color color, string title, string text, string author, string? authorImageUrl)
     {
@@ -54,5 +54,33 @@ public static class EmbedCreator
         }
 
         return builder.Build();
+    }
+
+    public static async Task SetupCommandsInfoEmbed()
+    {
+        var channel = DiscordStatement.CurrentChannel;
+        
+        var builder = new EmbedBuilder
+        {
+            Title = Environment.UserName,
+            Color = Color.Green,
+            Description =
+                "Możesz zmienić nazwe tego kanału, lecz nie ruszaj Topicu kanału. Jeśli zmienisz jedno i drugie to bot stworzy nowy kanał",
+            Timestamp = DateTime.UtcNow
+        };
+
+        foreach (var command in DiscordCommand.GetCommands())
+        {
+            // Embed commands info
+            builder.AddField(x =>
+            {
+                x.Name = $"/{command.Options().Name}";
+                x.Value = command.Options().Description;
+                x.IsInline = true;
+            });
+        }
+
+        DiscordStatement.CurrentChannel = channel;
+        await channel.SendMessageAsync("<@&1170147843252703342>", false, builder.Build());
     }
 }

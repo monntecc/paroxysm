@@ -1,8 +1,10 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
+using Paroxysm.Discord.Audit;
 using Paroxysm.Discord.Commands;
 using Paroxysm.Discord.Commands.Models;
 
-namespace Paroxysm.API;
+namespace Paroxysm.Discord;
 
 public static class DiscordCommand
 {
@@ -31,21 +33,38 @@ public static class DiscordCommand
 
     public static Task OnSlashCommandExecute(SocketSlashCommand slashCommand)
     {
-        var commands = GetCommands();
-        foreach (var command in commands)
+        var command = GetCommands().FirstOrDefault(cmd => cmd.Options().Name == slashCommand.CommandName);
+        if (command == null)
         {
-            if (command.Options().Name != slashCommand.CommandName) continue;
-
-            var result = command.Execute(slashCommand.Data);
-            var commandOptions =
-                slashCommand.Data.Options.Count > 0 ? slashCommand.Data.Options.ElementAt(0).Value as string : "";
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine(
-                $"[Executor] -> \tUser {slashCommand.User.Username} has executed command /{slashCommand.CommandName} {commandOptions}");
-            Console.ResetColor();
-
-            slashCommand.RespondAsync(null, new[] { result }, false, true);
+            slashCommand.RespondAsync("Command not found", null, false, true);
         }
+
+        var result = command?.Execute(slashCommand.Data);
+        var commandOptions =
+            slashCommand.Data.Options.Count > 0 ? slashCommand.Data.Options.ElementAt(0).Value as string : "";
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+        Console.WriteLine(
+            $"[Executor] -> \tUser {slashCommand.User.Username} has executed command /{slashCommand.CommandName} {commandOptions}");
+        Console.ResetColor();
+
+        slashCommand.RespondAsync(null, new[] { result }, false, true);
+        AuditManager.LogCommandMessage(new EmbedAuthorBuilder
+        {
+            Name = slashCommand.User.Username,
+            IconUrl = slashCommand.User.GetAvatarUrl()
+        }, slashCommand.CommandName, result!.Description).GetAwaiter().GetResult();
+
+        return Task.CompletedTask;
+    }
+
+    public static Task SetupSlashCommands()
+    {
+        Array.ForEach(GetCommands().ToArray(), command =>
+        {
+            var cmd = command.CreateSlashCommand().Build();
+            DiscordStatement.DiscordClient.CreateGlobalApplicationCommandAsync(cmd);
+            Console.WriteLine($"\t[Setup] Command /{cmd.Name} has been injected.");
+        });
 
         return Task.CompletedTask;
     }

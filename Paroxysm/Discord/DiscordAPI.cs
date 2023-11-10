@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Paroxysm.API;
 using Paroxysm.Discord.Events;
 using Paroxysm.Tools;
 

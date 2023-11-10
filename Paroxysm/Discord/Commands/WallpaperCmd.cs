@@ -2,7 +2,6 @@
 using Discord.WebSocket;
 using Paroxysm.Discord.Commands.Models;
 using Paroxysm.Hooks.Actions;
-using Paroxysm.Tools;
 
 namespace Paroxysm.Discord.Commands;
 
@@ -28,7 +27,7 @@ public class WallpaperCmd : ISlashCommand
     {
         if (parameters is null)
         {
-            return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+            return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                 "Unknown option parameters.", Environment.UserName, null);
         }
 

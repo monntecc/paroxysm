@@ -4,9 +4,9 @@ namespace Paroxysm.Discord;
 
 internal abstract class DiscordWebhook
 {
-    public static async Task<IWebhook> GetOrCreateWebhookAsync(ITextChannel? channel, string webhookName = "Datura")
+    public static async Task<IWebhook> GetOrCreateWebhookAsync(string webhookName = "Datura")
     {
-        channel ??= DiscordStatement.CurrentChannel;
+        var channel = DiscordStatement.CurrentChannel;
 
         var webhooks = await channel.GetWebhooksAsync();
         var existingWebhook = webhooks.FirstOrDefault(w => w.Name == webhookName);

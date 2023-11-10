@@ -29,14 +29,14 @@ public class TaskManagerCmd : ISlashCommand
         {
             backgroundWorker.CancelAsync();
 
-            return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed",
+            return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed",
                 "Task manager thread has been closed.", Environment.UserName, null);
         }
 
         backgroundWorker.DoWork += TaskManagerAction.Follow;
         backgroundWorker.RunWorkerAsync();
 
-        return EmbedCreator.CreateWithText(Color.Green, "Command was successfully executed",
+        return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed",
             "Task manager thread has been initialized.", Environment.UserName, null);
     }
 }

