@@ -3,7 +3,7 @@ using Discord.WebSocket;
 using Paroxysm.Discord.Commands.Models;
 using Paroxysm.Hooks.Actions;
 
-namespace Paroxysm.API.Commands;
+namespace Paroxysm.Discord.Commands;
 
 public class AutoRunCmd : ISlashCommand
 {

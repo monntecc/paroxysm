@@ -1,5 +1,5 @@
 ﻿using Discord;
-using Paroxysm.API;
+using Paroxysm.Discord;
 
 namespace Paroxysm.Tools;
 

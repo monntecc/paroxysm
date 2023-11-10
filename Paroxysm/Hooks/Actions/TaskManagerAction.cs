@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using Discord;
-using Paroxysm.API;
+using Paroxysm.Discord;
 using Paroxysm.Tools;
 
 namespace Paroxysm.Hooks.Actions;

@@ -35,7 +35,7 @@ public static class DiscordClient
     {
         var guild = DiscordStatement.DiscordClient.GetGuild(1065243544580792391);
         var channel = await PrepareTextChannel(guild);
-        
+
         // Webhook creation
         OnBeforeCloseEvent.Webhook = await DiscordWebhook.GetOrCreateWebhookAsync(channel, "Datura");
         OnBeforeCloseEvent.SendReadyMessage();

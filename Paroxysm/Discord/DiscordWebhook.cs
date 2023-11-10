@@ -1,33 +1,21 @@
 ﻿using Discord;
-using Paroxysm.API;
 
-namespace Paroxysm.Discord
+namespace Paroxysm.Discord;
+
+internal abstract class DiscordWebhook
 {
-    internal class DiscordWebhook
+    public static async Task<IWebhook> GetOrCreateWebhookAsync(ITextChannel? channel, string webhookName = "Datura")
     {
-        public static async Task<IWebhook> GetOrCreateWebhookAsync(ITextChannel? channel, string webhookName)
+        channel ??= DiscordStatement.CurrentChannel;
+
+        var webhooks = await channel.GetWebhooksAsync();
+        var existingWebhook = webhooks.FirstOrDefault(w => w.Name == webhookName);
+        if (existingWebhook != null)
         {
-            if (channel == null)
-            {
-                channel = DiscordStatement.CurrentChannel;
-            }
-
-            if (webhookName == null)
-            {
-                webhookName = "Datura";
-            }
-
-            var webhooks = await channel.GetWebhooksAsync();
-            var existingWebhook = webhooks.FirstOrDefault(w => w.Name == webhookName);
-            if (existingWebhook != null)
-            {
-                return existingWebhook;
-            }
-            else
-            {
-                var createdWebook = await channel.CreateWebhookAsync(webhookName);
-                return createdWebook;
-            }
+            return existingWebhook;
         }
+
+        var createdWebhook = await channel.CreateWebhookAsync(webhookName);
+        return createdWebhook;
     }
 }

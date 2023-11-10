@@ -5,7 +5,7 @@ using Paroxysm.Discord.Commands.Models;
 using Paroxysm.Hooks.Actions;
 using Paroxysm.Tools;
 
-namespace Paroxysm.API.Commands;
+namespace Paroxysm.Discord.Commands;
 
 public class TaskManagerCmd : ISlashCommand
 {

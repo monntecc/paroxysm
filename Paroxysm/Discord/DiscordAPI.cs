@@ -20,7 +20,7 @@ public static class DiscordAPI
         DiscordStatement.DiscordClient.Ready += DiscordClient.OnReady;
         DiscordStatement.DiscordClient.MessageReceived += DiscordCommand.OnMessageReceivedAsync;
         DiscordStatement.DiscordClient.SlashCommandExecuted += DiscordCommand.OnSlashCommandExecute;
-        
+
         Console.CancelKeyPress += OnBeforeCloseEvent.OnBeforeClose;
 
         const string token = "MTA3NDAyNjQ3NjEyODcxOTAyMg.GDWe6b.MQ94IYx-E3u_0fQcXlUs7--jtnP5dlZScA-Ao8";

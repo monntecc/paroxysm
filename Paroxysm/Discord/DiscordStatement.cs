@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 
-namespace Paroxysm.API;
+namespace Paroxysm.Discord;
 
 public static class DiscordStatement
 {

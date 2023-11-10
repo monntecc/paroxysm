@@ -1,5 +1,5 @@
 ﻿using Discord.WebSocket;
-using Paroxysm.API.Commands;
+using Paroxysm.Discord.Commands;
 using Paroxysm.Discord.Commands.Models;
 
 namespace Paroxysm.API;
