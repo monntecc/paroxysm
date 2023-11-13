@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Paroxysm.Hooks;
 
@@ -25,4 +26,17 @@ public static class HookStatement
     // ruch kursorem
     [DllImport("user32.dll")]
     public static extern int SetCursorPos(int x, int y);
+
+    // zamykanie okna z focusem
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll")]
+    public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+    
+    [DllImport("user32.dll")]
+    public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int processId);
+
+    public const int WM_CLOSE = 0x0010;
+
 }

@@ -22,7 +22,8 @@ public static class DiscordCommand
             new WebpageCmd(),
             new ExecuteCmd(),
             new UpdateCmd(),
-            new SettingsCmd()
+            new SettingsCmd(),
+            new ClosewinCmd(),
         };
     }
 
