@@ -9,7 +9,7 @@ public interface ISlashCommand
     SlashCommandOptions Options();
 
     // Execute function
-    Embed Execute(SocketSlashCommandData? parameters);
+    Embed Execute(SocketSlashCommand slashCommand);
 
     // Slash command generator
     public SlashCommandBuilder CreateSlashCommand()

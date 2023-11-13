@@ -21,7 +21,8 @@ public static class DiscordCommand
             new TaskManagerCmd(),
             new WebpageCmd(),
             new ExecuteCmd(),
-            new UpdateCmd()
+            new UpdateCmd(),
+            new SettingsCmd()
         };
     }
 
@@ -39,7 +40,7 @@ public static class DiscordCommand
             slashCommand.RespondAsync("Command not found", null, false, true);
         }
 
-        var result = command?.Execute(slashCommand.Data);
+        var result = command?.Execute(slashCommand);
         var commandOptions =
             slashCommand.Data.Options.Count > 0 ? slashCommand.Data.Options.ElementAt(0).Value as string : "";
         Console.ForegroundColor = ConsoleColor.DarkCyan;

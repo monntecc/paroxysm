@@ -16,7 +16,7 @@ public class ConsoleCmd : ISlashCommand
         };
     }
 
-    public Embed Execute(SocketSlashCommandData? parameters)
+    public Embed Execute(SocketSlashCommand slashCommand)
     {
         return ConsoleAction.Follow();
     }

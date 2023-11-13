@@ -19,7 +19,7 @@ public class TaskManagerCmd : ISlashCommand
     }
 
 
-    public Embed Execute(SocketSlashCommandData? parameters)
+    public Embed Execute(SocketSlashCommand slashCommand)
     {
         Settings.TaskmgrClosed = !Settings.TaskmgrClosed;
         BackgroundWorker backgroundWorker = new();

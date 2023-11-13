@@ -11,7 +11,8 @@ public static class DiscordAPI
     {
         var config = new DiscordSocketConfig
         {
-            GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+            GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent,
+            UseInteractionSnowflakeDate = false
         };
         DiscordStatement.DiscordClient = new DiscordSocketClient(config);
 
@@ -19,6 +20,7 @@ public static class DiscordAPI
         DiscordStatement.DiscordClient.Ready += DiscordClient.OnReady;
         DiscordStatement.DiscordClient.MessageReceived += DiscordCommand.OnMessageReceivedAsync;
         DiscordStatement.DiscordClient.SlashCommandExecuted += DiscordCommand.OnSlashCommandExecute;
+        DiscordStatement.DiscordClient.ModalSubmitted += ModalManager.ModalSubmitted;
 
         Console.CancelKeyPress += OnBeforeCloseEvent.OnBeforeClose;
 

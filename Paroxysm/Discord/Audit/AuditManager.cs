@@ -15,6 +15,7 @@ public static class AuditManager
             Timestamp = DateTime.UtcNow
         };
 
-        await DiscordStatement.AuditChannel.SendMessageAsync("<@&1170147843252703342>", false, builder.Build());
+        // "<@&1170147843252703342>"
+        await DiscordStatement.AuditChannel.SendMessageAsync("", false, builder.Build());
     }
 }

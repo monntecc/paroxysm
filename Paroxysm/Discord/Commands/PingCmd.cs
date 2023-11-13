@@ -15,7 +15,7 @@ public class PingCmd : ISlashCommand
         };
     }
 
-    public Embed Execute(SocketSlashCommandData? parameters)
+    public Embed Execute(SocketSlashCommand slashCommand)
     {
         return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed",
             "Pong!", Environment.UserName, null);

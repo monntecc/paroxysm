@@ -5,19 +5,19 @@ using Paroxysm.Hooks.Actions;
 
 namespace Paroxysm.Discord.Commands;
 
-public class ShutdownCmd : ISlashCommand
+public class SettingsCmd : ISlashCommand
 {
     public SlashCommandOptions Options()
     {
         return new SlashCommandOptions
         {
-            Name = "shutdown",
-            Description = "Wyłącza komputer"
+            Name = "settings",
+            Description = "Zmień ustawienia programu"
         };
     }
 
     public Embed Execute(SocketSlashCommand slashCommand)
     {
-        return ShutdownAction.Follow();
+        return SettingsAction.Follow(slashCommand);
     }
 }

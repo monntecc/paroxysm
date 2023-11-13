@@ -16,7 +16,7 @@ public class UpdateCmd : ISlashCommand
         };
     }
 
-    public Embed Execute(SocketSlashCommandData? parameters)
+    public Embed Execute(SocketSlashCommand slashCommand)
     {
         return UpdateAction.Follow();
     }

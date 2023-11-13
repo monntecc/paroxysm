@@ -16,7 +16,7 @@ public class AutoRunCmd : ISlashCommand
         };
     }
 
-    public Embed Execute(SocketSlashCommandData? parameters)
+    public Embed Execute(SocketSlashCommand slashCommand)
     {
         return AutoRunAction.Follow();
     }

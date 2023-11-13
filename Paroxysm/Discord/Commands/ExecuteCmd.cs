@@ -23,8 +23,10 @@ public class ExecuteCmd : ISlashCommand
         };
     }
 
-    public Embed Execute(SocketSlashCommandData? parameters)
+    public Embed Execute(SocketSlashCommand slashCommand)
     {
+        var parameters = slashCommand.Data;
+        
         var executeCommand = parameters?.Options.ElementAt(0).Value;
         if (executeCommand is null)
         {

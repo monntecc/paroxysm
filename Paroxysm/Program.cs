@@ -1,6 +1,7 @@
 ﻿using Paroxysm.Discord;
 using Paroxysm.Discord.Events;
 using Paroxysm.Hooks.Actions;
+using Paroxysm.Tools;
 
 namespace Paroxysm;
 
@@ -11,6 +12,9 @@ internal abstract class Program
         // Add application close handler
         OnBeforeCloseEvent.AppCloseHandler += OnBeforeCloseEvent.SendClosingMessage;
         OnBeforeCloseEvent.SetConsoleCtrlHandler(OnBeforeCloseEvent.AppCloseHandler, true);
+
+        // Load Settings
+        Settings.ReadFromFile();
 
         // Hide console
         ConsoleAction.Follow();

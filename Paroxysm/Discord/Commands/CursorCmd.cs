@@ -28,8 +28,10 @@ public class CursorCmd : ISlashCommand
         };
     }
 
-    public Embed Execute(SocketSlashCommandData? parameters)
+    public Embed Execute(SocketSlashCommand slashCommand)
     {
+        var parameters = slashCommand.Data;
+        
         if (parameters is null)
         {
             return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
