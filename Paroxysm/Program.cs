@@ -7,7 +7,7 @@ namespace Paroxysm;
 
 internal abstract class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         // Add application close handler
         OnBeforeCloseEvent.AppCloseHandler += OnBeforeCloseEvent.SendClosingMessage;
@@ -20,7 +20,7 @@ internal abstract class Program
         ConsoleAction.Follow();
 
         // Initialize discord bot
-        DiscordAPI.Init().GetAwaiter().GetResult();
+        await DiscordAPI.Init();
 
         // Hold the console so it does’nt run off the end
         while (!OnBeforeCloseEvent.IsProgramExited)

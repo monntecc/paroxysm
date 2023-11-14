@@ -59,6 +59,7 @@ public static class DiscordClient
     public static async Task OnReady()
     {
         var guild = DiscordStatement.DiscordClient.GetGuild(1065243544580792391);
+        DiscordStatement.CurrentGuild = guild;
 
         // Setup slash commands and embeds
         await DiscordCommand.SetupSlashCommands();
@@ -71,7 +72,7 @@ public static class DiscordClient
         await DiscordEmbed.SetupCommandsInfoEmbed();
 
         // Webhook creation
-        OnBeforeCloseEvent.Webhook = await DiscordWebhook.GetOrCreateWebhookAsync();
+        DiscordStatement.CurrentWebhook = await DiscordWebhook.GetOrCreateWebhookAsync();
         OnBeforeCloseEvent.SendReadyMessage();
     }
 }
