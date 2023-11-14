@@ -16,7 +16,7 @@ public class CursorCmd : ISlashCommand
             Name = "cursor",
             Description =
                 "Zmienia pozycje kursora.",
-            Params = new SlashCommandOptionParams
+            Params = new[] {  new SlashCommandOptionParams
             {
                 Name = "option",
                 Description =
@@ -25,7 +25,7 @@ public class CursorCmd : ISlashCommand
                 ChoiceOptions = new[] { "shoot", "loop" },
                 IsRequired = true,
                 IsChoiceEnable = true
-            }
+            } }
         };
     }
 

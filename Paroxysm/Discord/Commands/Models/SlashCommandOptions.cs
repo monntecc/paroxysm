@@ -9,5 +9,5 @@ public class SlashCommandOptions
     public string Description { get; set; }
 
     // Command params
-    public SlashCommandOptionParams? Params { get; set; }
+    public IEnumerable<SlashCommandOptionParams>? Params { get; set; }
 }

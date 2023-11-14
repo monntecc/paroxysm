@@ -13,12 +13,13 @@ public class WebpageCmd : ISlashCommand
         {
             Name = "webpage",
             Description = "Uruchamia strone w przeglądarce",
-            Params = new SlashCommandOptionParams
+            Params = new[] { new SlashCommandOptionParams
             {
                 Name = "url",
                 Description = "Link do strony",
                 Type = ApplicationCommandOptionType.String,
                 IsRequired = true
+            }
             }
         };
     }
