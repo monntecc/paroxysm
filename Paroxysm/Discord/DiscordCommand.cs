@@ -23,7 +23,7 @@ public static class DiscordCommand
             new ExecuteCmd(),
             new UpdateCmd(),
             new SettingsCmd(),
-            new ClosewinCmd(),
+            new ClosewinCmd()
         };
     }
 
@@ -33,14 +33,15 @@ public static class DiscordCommand
         return Task.CompletedTask;
     }
 
-    public static Task OnSlashCommandExecute(SocketSlashCommand slashCommand)
+    public static async Task OnSlashCommandExecute(SocketSlashCommand slashCommand)
     {
         if (slashCommand.ChannelId != DiscordStatement.CurrentChannel.Id &&
-            slashCommand.ChannelId != 1170294233656217630) return Task.CompletedTask;
+            slashCommand.ChannelId != 1170294233656217630) return;
+        
         var command = GetCommands().FirstOrDefault(cmd => cmd.Options().Name == slashCommand.CommandName);
         if (command == null)
         {
-            slashCommand.RespondAsync("Command not found", null, false, true);
+            await slashCommand.RespondAsync("Command not found", null, false, true);
         }
 
         var result = command?.Execute(slashCommand);
@@ -51,25 +52,23 @@ public static class DiscordCommand
             $"[Executor] -> \tUser {slashCommand.User.Username} has executed command /{slashCommand.CommandName} {commandOptions}");
         Console.ResetColor();
 
-        slashCommand.RespondAsync(null, new[] { result }, false, true);
-        AuditManager.LogCommandMessage(new EmbedAuthorBuilder
+        await slashCommand.RespondAsync(null, new[] { result }, false, true);
+        await AuditManager.LogCommandMessage(new EmbedAuthorBuilder
         {
             Name = slashCommand.User.Username,
             IconUrl = slashCommand.User.GetAvatarUrl()
-        }, slashCommand.CommandName, result!.Description).GetAwaiter().GetResult();
-
-        return Task.CompletedTask;
+        }, slashCommand.CommandName, result!.Description);
     }
 
     public static Task SetupSlashCommands()
     {
         Array.ForEach(GetCommands().ToArray(), command =>
         {
-            var cmd = command.CreateSlashCommand().Build();
-            DiscordStatement.DiscordClient.CreateGlobalApplicationCommandAsync(cmd);
-            Console.WriteLine($"\t[Setup] Command /{cmd.Name} has been injected.");
+            var properties = command.CreateSlashCommand().Build();
+            DiscordStatement.DiscordClient.CreateGlobalApplicationCommandAsync(properties);
+            Console.WriteLine($"\t[Setup] Command /{properties.Name} has been injected.");
         });
-
+        
         return Task.CompletedTask;
     }
 }

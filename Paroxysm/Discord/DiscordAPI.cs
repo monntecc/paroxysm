@@ -37,7 +37,7 @@ public static class DiscordAPI
         Console.CancelKeyPress += OnBeforeCloseEvent.OnBeforeClose;
 
         // Start discord bot
-        const string token = "MTA3NDAyNjQ3NjEyODcxOTAyMg.GDWe6b.MQ94IYx-E3u_0fQcXlUs7--jtnP5dlZScA-Ao8";
+        const string token = "MTA3NDAyNjQ3NjEyODcxOTAyMg.GQDZeP.NiCQM5qf5mZ7yGzfm6I8QfnrlOapji3E4iP2Qo";
         await DiscordStatement.DiscordClient.LoginAsync(TokenType.Bot, token);
         await DiscordStatement.DiscordClient.StartAsync();
 
