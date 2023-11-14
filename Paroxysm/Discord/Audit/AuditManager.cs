@@ -11,8 +11,12 @@ public static class AuditManager
             Color = Color.Teal,
             Title = $"Execute result from: /{cmdName}",
             Description = result,
-            Author = author,
-            Timestamp = DateTime.UtcNow
+            Author = new EmbedAuthorBuilder
+            {
+                IconUrl = author.IconUrl,
+                Name = $"{author.Name} ({Environment.UserName})"
+            },
+            Timestamp = DateTime.UtcNow,
         };
 
         // "<@&1170147843252703342>"
