@@ -16,7 +16,7 @@ public static class AuditManager
                 IconUrl = author.IconUrl,
                 Name = $"{author.Name} ({Environment.UserName})"
             },
-            Timestamp = DateTime.UtcNow,
+            Timestamp = DateTime.UtcNow
         };
 
         // "<@&1170147843252703342>"

@@ -8,8 +8,6 @@ namespace Paroxysm.Discord.Events;
 
 internal abstract class OnBeforeCloseEvent
 {
-    public static IWebhook Webhook { get; set; }
-
     public static bool IsProgramExited { get; set; }
 
     [DllImport("Kernel32")]
@@ -29,7 +27,7 @@ internal abstract class OnBeforeCloseEvent
 
     public static async void SendReadyMessage()
     {
-        var client = new DiscordWebhookClient(Webhook);
+        var client = new DiscordWebhookClient(DiscordStatement.CurrentWebhook);
         var embed = DiscordEmbed.CreateWithText(Color.DarkBlue, Environment.UserName,
             "Webhook was successfully enabled.", Environment.UserName, "");
         await client.SendMessageAsync("", false, new[] { embed });
@@ -37,7 +35,7 @@ internal abstract class OnBeforeCloseEvent
 
     private static async void SendPreventedMessage()
     {
-        var client = new DiscordWebhookClient(Webhook);
+        var client = new DiscordWebhookClient(DiscordStatement.CurrentWebhook);
         var embed = DiscordEmbed.CreateWithText(Color.DarkBlue, "Powstrzymano zamknięcie programu",
             "Wykryto probe wyłączenia programu, oraz powstrzymano", Environment.UserName, "");
         await client.SendMessageAsync("", false, new[] { embed });
@@ -45,7 +43,7 @@ internal abstract class OnBeforeCloseEvent
 
     public static bool SendClosingMessage(CtrlType sig)
     {
-        var client = new DiscordWebhookClient(Webhook);
+        var client = new DiscordWebhookClient(DiscordStatement.CurrentWebhook);
         var embed = DiscordEmbed.CreateWithText(Color.DarkBlue, "Wyłączono program", "Program został wyłączony",
             Environment.UserName, "");
         client.SendMessageAsync("", false, new[] { embed });
