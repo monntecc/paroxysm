@@ -3,7 +3,7 @@
 public static class Settings
 {
     private static readonly string ConfigPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.paroconf");
-    public static bool CursorRandom { get; set; }
+    public static bool CursorRandom { get; set; } = false;
     public static int CursorMinTime { get; private set; } = 1000;
     public static int CursorMaxTime { get; private set; } = 15000;
     public static bool TaskmgrClosed { get; set; }

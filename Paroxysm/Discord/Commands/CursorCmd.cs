@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using System.ComponentModel;
+using Discord;
 using Discord.WebSocket;
 using Paroxysm.Discord.Commands.Models;
 using Paroxysm.Hooks.Actions;
@@ -42,24 +43,29 @@ public class CursorCmd : ISlashCommand
         switch (availableOptions)
         {
             case "shoot":
-                MoveCursorAction.Follow();
+                MoveCursorAction.Follow(null, null!);
 
                 return DiscordEmbed.CreateWithText(Color.Green, "Command was executed successfully",
                     "Mouse has been moved to random position on the screen.", Environment.UserName, null);
             case "loop":
             {
-                Random random = new();
                 Settings.CursorRandom = !Settings.CursorRandom;
-                while (Settings.CursorRandom)
+                BackgroundWorker backgroundWorker = new();
+                backgroundWorker.WorkerSupportsCancellation = true;
+                
+                while (!Settings.CursorRandom)
                 {
-                    MoveCursorAction.Follow();
-                    Thread.Sleep(random.Next(Settings.CursorMinTime, Settings.CursorMaxTime));
-
+                    backgroundWorker.CancelAsync();
+                    
                     return DiscordEmbed.CreateWithText(Color.Green, "Command was executed successfully",
-                        "Mouse moving loop has been set, working...", Environment.UserName, null);
+                        "Mouse moving loop has been disabled", Environment.UserName, null);
                 }
-
-                break;
+                
+                backgroundWorker.DoWork += MoveCursorAction.Follow;
+                backgroundWorker.RunWorkerAsync();
+                    
+                return DiscordEmbed.CreateWithText(Color.Green, "Command was executed successfully",
+                    "Mouse moving loop has been set, working...", Environment.UserName, null);
             }
         }
 
