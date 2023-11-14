@@ -23,20 +23,25 @@ public interface ISlashCommand
         if (parameters is null) return commandBuilder;
 
         var commandOptions = new List<ApplicationCommandOptionChoiceProperties>();
-        if (parameters is { IsChoiceEnable: true, ChoiceOptions: not null })
-        {
-            commandOptions.AddRange(parameters.ChoiceOptions.Select(choiceOption =>
-                new ApplicationCommandOptionChoiceProperties { Value = choiceOption, Name = choiceOption }));
-        }
 
-        commandBuilder.AddOption(new SlashCommandOptionBuilder
+        foreach (var parameter in parameters)
         {
-            Name = Options().Params?.Name,
-            Description = Options().Params?.Description,
-            Type = Options().Params!.Type,
-            IsRequired = Options().Params?.IsRequired,
-            Choices = commandOptions
-        });
+            if (parameter is { IsChoiceEnable: true, ChoiceOptions: not null })
+            {
+                commandOptions.AddRange(parameter.ChoiceOptions.Select(choiceOption =>
+                    new ApplicationCommandOptionChoiceProperties { Value = choiceOption, Name = choiceOption }));
+            }
+
+            commandBuilder.AddOption(new SlashCommandOptionBuilder
+            {
+                Name = parameter.Name,
+                Description = parameter.Description,
+                Type = parameter.Type,
+                IsRequired = parameter.IsRequired,
+                Choices = commandOptions
+            });
+        }
+        
 
         return commandBuilder;
     }

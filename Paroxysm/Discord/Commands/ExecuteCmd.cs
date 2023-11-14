@@ -13,12 +13,19 @@ public class ExecuteCmd : ISlashCommand
         {
             Name = "execute",
             Description = "Używa komendy w konsoli",
-            Params = new SlashCommandOptionParams
+            Params = new[] { new SlashCommandOptionParams
             {
                 Name = "command",
                 Description = "Komenda do wykonania z terminalu",
                 Type = ApplicationCommandOptionType.String,
                 IsRequired = true
+            }, new SlashCommandOptionParams
+            {
+                Name = "args",
+                Description = "Argumenty do komendy",
+                Type = ApplicationCommandOptionType.String,
+                IsRequired = false
+            }
             }
         };
     }
@@ -26,14 +33,14 @@ public class ExecuteCmd : ISlashCommand
     public Embed Execute(SocketSlashCommand slashCommand)
     {
         var parameters = slashCommand.Data;
-        
-        var executeCommand = parameters?.Options.ElementAt(0).Value;
+
+        var executeCommand = parameters?.Options.ToList();
         if (executeCommand is null)
         {
             return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
                 "Unknown option parameters.", Environment.UserName, null);
         }
 
-        return ExecuteCommandAction.Follow(executeCommand as string);
+        return ExecuteCommandAction.Follow(executeCommand);
     }
 }

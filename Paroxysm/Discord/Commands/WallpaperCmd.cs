@@ -13,12 +13,13 @@ public class WallpaperCmd : ISlashCommand
         {
             Name = "wallpaper",
             Description = "Zmienia tapete na wyznaczoną",
-            Params = new SlashCommandOptionParams
+            Params =new[] { new SlashCommandOptionParams
             {
                 Name = "url",
                 Description = "Link do obrazu",
                 Type = ApplicationCommandOptionType.String,
                 IsRequired = true
+            }
             }
         };
     }
