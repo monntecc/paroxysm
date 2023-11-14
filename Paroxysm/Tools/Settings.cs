@@ -52,6 +52,17 @@ public static class Settings
         }
 
         var configuration = File.ReadAllLines(ConfigPath);
+        foreach (var line in configuration)
+        {
+            if (line.StartsWith("[")) continue;
+
+            var kv = line.Split("=");
+            if(position == kv[0] && kv.Length == 2)
+            {
+                return kv[1];
+            }
+        }
+        
         return position switch
         {
             "CursorMinTime" => configuration[1].Split("=")[1],
