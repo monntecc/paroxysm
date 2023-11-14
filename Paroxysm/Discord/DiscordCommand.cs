@@ -35,7 +35,7 @@ public static class DiscordCommand
 
     public static Task OnSlashCommandExecute(SocketSlashCommand slashCommand)
     {
-        if (!(slashCommand.Channel.Id == DiscordStatement.CurrentChannel.Id) && !(slashCommand.Id == (ulong)1170294233656217630)) return Task.CompletedTask;
+        if (slashCommand.ChannelId != DiscordStatement.CurrentChannel.Id && slashCommand.ChannelId != 1170294233656217630) return Task.CompletedTask;
         var command = GetCommands().FirstOrDefault(cmd => cmd.Options().Name == slashCommand.CommandName);
         if (command == null)
         {
