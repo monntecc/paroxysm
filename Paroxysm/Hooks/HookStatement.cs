@@ -37,6 +37,6 @@ public static class HookStatement
     [DllImport("user32.dll")]
     public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int processId);
 
-    public const int WM_CLOSE = 0x0010;
+    public static readonly int WM_CLOSE = 0x0010;
 
 }
