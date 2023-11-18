@@ -11,11 +11,14 @@ internal abstract class Program
         const string sourceFolder = "Paroxysm";
         const string destinationFolder = @"C:\Xampp\";
 
-        if (!DotnetManager.IsInstalled())
-        {
-            throw new Exception(
-                "Cannot find dotnet package in your PC, please install it and rerun application again.");
-        }
+
+
+        // jest opcja na self contain, nie jest to już wymagane
+        //if (!DotnetManager.IsInstalled())
+        //{
+        //    throw new Exception(
+        //        "Cannot find dotnet package in your PC, please install it and rerun application again.");
+        //}
 
         // Sprawdza czy flaga `update` jest ustawiona
         if (ProgramUpdater.IsUpdateFlagSet(args))
@@ -36,6 +39,19 @@ internal abstract class Program
         // Pełna ścieżka docelowa
         var destinationPath = Path.Combine(destinationFolder, sourceFolder);
 
+        long destinationBytes = ProgramUpdater.CalculateFolderSize(destinationPath);
+        long sourceBytes = ProgramUpdater.CalculateFolderSize(sourcePath);
+
+        // Pełna ścieżka do program.exe
+        var programExePath = Path.Combine(destinationPath, $"{sourceFolder}.exe");
+
+        if (sourceBytes == destinationBytes)
+        {
+            Console.WriteLine($"Aktualizacja niewymagana. Uruchamianie {programExePath}");
+            Process.Start(programExePath);
+            return;
+        }
+
         // Wyświetlenie komunikatu na konsoli
         Console.WriteLine($"Kopiowanie folderu '{sourceFolder}' do '{destinationPath}'...");
 
@@ -43,9 +59,6 @@ internal abstract class Program
         {
             // Skopiowanie folderu
             DirectoryManager.Copy(sourcePath, destinationPath);
-
-            // Pełna ścieżka do program.exe
-            var programExePath = Path.Combine(destinationPath, $"{sourceFolder}.exe");
 
             if (File.Exists(programExePath))
             {
