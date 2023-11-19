@@ -58,7 +58,7 @@ internal abstract class Program
         try
         {
             // Skopiowanie folderu
-            DirectoryManager.Copy(sourcePath, destinationPath);
+            UpdateManager.Update(sourcePath, destinationPath);
 
             if (File.Exists(programExePath))
             {
