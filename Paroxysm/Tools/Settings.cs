@@ -33,6 +33,10 @@ public static class Settings
 
     private static void CreateConfigFile()
     {
+        if (!File.Exists(ConfigPath))
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath));
+        }
         File.WriteAllText(ConfigPath, GetDefaultConfig());
     }
 

@@ -18,6 +18,6 @@ public class PingCmd : ISlashCommand
     public Embed Execute(SocketSlashCommand slashCommand)
     {
         return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed",
-            $"Pong! {DiscordStatement.DiscordClient.Latency}", Environment.UserName, null);
+            $"Pong! {DiscordStatement.DiscordClient.Latency}ms", Environment.UserName, null);
     }
 }

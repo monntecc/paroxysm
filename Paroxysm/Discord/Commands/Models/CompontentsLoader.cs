@@ -10,7 +10,7 @@ public class CompontentMessage
 
     public void AddButton(string label, string id, ButtonStyle? buttonStyle, IEmote? emote, string? url, bool? disabled)
     {
-        ButtonBuilder buttonBuilder = new ButtonBuilder();
+        ButtonBuilder buttonBuilder = new ();
         buttonBuilder.WithLabel( label );
         buttonBuilder.WithCustomId(id);
         buttonBuilder.WithStyle(buttonStyle ?? ButtonStyle.Primary);
@@ -27,7 +27,7 @@ public class CompontentMessage
         menuBuilder.WithCustomId(id);
         menuBuilder.WithPlaceholder(placeholder);
 
-        List<SelectMenuOptionBuilder> optionBuilders = new List<SelectMenuOptionBuilder>();
+        List<SelectMenuOptionBuilder> optionBuilders = new();
 
         foreach(var menuOption in menuOptions)
         {
