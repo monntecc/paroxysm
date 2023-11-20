@@ -3,10 +3,9 @@ using Discord.Commands;
 
 namespace Paroxysm.Discord.Commands.Models;
 
-public class CompontentMessage
+public class ComponentsLoader
 {
-
-    private ComponentBuilder component = new();
+    private readonly ComponentBuilder component = new();
 
     public void AddButton(string label, string id, ButtonStyle? buttonStyle, IEmote? emote, string? url, bool? disabled)
     {
