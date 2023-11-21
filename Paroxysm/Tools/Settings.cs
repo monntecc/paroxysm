@@ -33,8 +33,12 @@ public static class Settings
 
     private static void CreateConfigFile()
     {
+<<<<<<< HEAD
 
         if(!File.Exists(ConfigPath))
+=======
+        if (!File.Exists(ConfigPath))
+>>>>>>> 70bd066d84959cba9db2e614edcf2b9c5dbe85c6
         {
             Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath));
         }

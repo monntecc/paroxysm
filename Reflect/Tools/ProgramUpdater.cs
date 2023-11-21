@@ -11,15 +11,13 @@ public static class ProgramUpdater
     public static long CalculateFolderSize(string path)
     {
         long bytes = 0;
-        if(Directory.Exists(path))
-        {
-            string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+        if (!Directory.Exists(path)) return bytes;
+        var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
 
-            foreach(var file in files)
-            {
-                FileInfo info = new FileInfo(file);
-                bytes += info.Length;
-            }
+        foreach(var file in files)
+        {
+            FileInfo info = new FileInfo(file);
+            bytes += info.Length;
         }
 
         return bytes;

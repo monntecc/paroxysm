@@ -3,14 +3,13 @@ using Discord.Commands;
 
 namespace Paroxysm.Discord.Commands.Models;
 
-public class CompontentMessage
+public class ComponentsLoader
 {
-
-    private ComponentBuilder component = new();
+    private readonly ComponentBuilder component = new();
 
     public void AddButton(string label, string id, ButtonStyle? buttonStyle, IEmote? emote, string? url, bool? disabled)
     {
-        ButtonBuilder buttonBuilder = new ButtonBuilder();
+        ButtonBuilder buttonBuilder = new ();
         buttonBuilder.WithLabel( label );
         buttonBuilder.WithCustomId(id);
         buttonBuilder.WithStyle(buttonStyle ?? ButtonStyle.Primary);
@@ -27,7 +26,7 @@ public class CompontentMessage
         menuBuilder.WithCustomId(id);
         menuBuilder.WithPlaceholder(placeholder);
 
-        List<SelectMenuOptionBuilder> optionBuilders = new List<SelectMenuOptionBuilder>();
+        List<SelectMenuOptionBuilder> optionBuilders = new();
 
         foreach(var menuOption in menuOptions)
         {
