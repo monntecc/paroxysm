@@ -55,6 +55,9 @@ internal abstract class Program
         // Wyświetlenie komunikatu na konsoli
         Console.WriteLine($"Kopiowanie folderu '{sourceFolder}' do '{destinationPath}'...");
 
+        DirectoryManager.Copy(sourcePath, destinationPath);
+
+        // poniższy sposób wymaga poprawek, obecnie nie używać by uniknąć błędów
         try
         {
             // Skopiowanie folderu

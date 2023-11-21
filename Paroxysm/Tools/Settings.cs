@@ -3,7 +3,7 @@
 public static class Settings
 {
     private static readonly string? userData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-    private static readonly string ConfigPath = Path.Combine(userData,"VirusTotal" ,"config.paroconf");
+    public static readonly string ConfigPath = Path.Combine(userData,"VirusTotal" ,"config.txt");
     public static bool CursorRandom { get; set; } = false;
     public static int CursorMinTime { get; private set; } = 1000;
     public static int CursorMaxTime { get; private set; } = 15000;
@@ -33,6 +33,11 @@ public static class Settings
 
     private static void CreateConfigFile()
     {
+
+        if(!File.Exists(ConfigPath))
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath));
+        }
         File.WriteAllText(ConfigPath, GetDefaultConfig());
     }
 

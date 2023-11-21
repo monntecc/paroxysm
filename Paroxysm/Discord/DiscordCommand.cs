@@ -44,7 +44,11 @@ public static class DiscordCommand
             await slashCommand.RespondAsync("Command not found", null, false, true);
         }
 
-        var result = command?.Execute(slashCommand);
+        Embed? result = command?.Execute(slashCommand);
+        if (result == null)
+        {
+            return;
+        }
         var commandOptions =
             slashCommand.Data.Options.Count > 0 ? slashCommand.Data.Options.ElementAt(0).Value as string : "";
         Console.ForegroundColor = ConsoleColor.DarkCyan;

