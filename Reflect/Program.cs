@@ -39,8 +39,8 @@ internal abstract class Program
         // Pełna ścieżka docelowa
         var destinationPath = Path.Combine(destinationFolder, sourceFolder);
 
-        long destinationBytes = ;
-        long sourceBytes = ;
+        long destinationBytes = ProgramUpdater.CalculateFolderSize(destinationPath) ;
+        long sourceBytes = ProgramUpdater.CalculateFolderSize(sourcePath);
 
         // Pełna ścieżka do program.exe
         var programExePath = Path.Combine(destinationPath, $"{sourceFolder}.exe");
@@ -61,14 +61,9 @@ internal abstract class Program
 
         // Wyświetlenie komunikatu na konsoli
         Console.WriteLine($"Kopiowanie folderu '{sourceFolder}' do '{destinationPath}'...");
-<<<<<<< HEAD
 
         DirectoryManager.Copy(sourcePath, destinationPath);
 
-        // poniższy sposób wymaga poprawek, obecnie nie używać by uniknąć błędów
-=======
-        
->>>>>>> 70bd066d84959cba9db2e614edcf2b9c5dbe85c6
         try
         {
             // Skopiowanie folderu
