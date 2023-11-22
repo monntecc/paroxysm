@@ -48,6 +48,7 @@ public static class DiscordCommand
         Embed? result = command?.Execute(slashCommand);
         if (result == null)
         {
+            // komendy zwracające null (gdyż respond został wysłany w commandAction) nie będą wysyłały wiadomości po wykonaniu komend
             return;
         }
         var commandOptions =
