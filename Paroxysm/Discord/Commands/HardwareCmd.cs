@@ -18,6 +18,6 @@ public class HardwareCmd : ISlashCommand
 
     public Embed Execute(SocketSlashCommand slashCommand)
     {
-        return HardwareAction.Follow(null);
+        return HardwareAction.Follow(slashCommand);
     }
 }
