@@ -26,9 +26,9 @@ public static class DiscordCommand
             new ClosewinCmd(),
             new HardwareCmd(),
             new DebugCmd(),
+            new KeyboardCmd()
         };
     }
-
 
     public static Task OnMessageReceivedAsync(SocketMessage message)
     {

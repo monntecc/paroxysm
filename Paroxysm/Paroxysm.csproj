@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="3.12.0" />
     <PackageReference Include="Hardware.Info" Version="100.0.0" />
+    <PackageReference Include="InputSimulator" Version="1.0.4" />
     <PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
   </ItemGroup>
 
