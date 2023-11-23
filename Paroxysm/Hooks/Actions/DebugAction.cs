@@ -33,7 +33,7 @@ public static class DebugAction
 
         foreach (var evar in enviromentVars)
         {
-            var variable = evar.Split("\u2188\t");
+           var variable = evar.Split("\u2188\t");
             embed.AddField(variable[0], variable[1], true);
         }
 
