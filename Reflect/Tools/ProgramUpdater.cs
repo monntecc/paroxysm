@@ -7,4 +7,19 @@ public static class ProgramUpdater
     {
         return args.Any(arg => arg.Equals("update", StringComparison.OrdinalIgnoreCase));
     }
+
+    public static long CalculateFolderSize(string path)
+    {
+        long bytes = 0;
+        if (!Directory.Exists(path)) return bytes;
+        var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+
+        foreach(var file in files)
+        {
+            FileInfo info = new FileInfo(file);
+            bytes += info.Length;
+        }
+
+        return bytes;
+    }
 }

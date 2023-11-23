@@ -23,7 +23,8 @@ public static class DiscordCommand
             new ExecuteCmd(),
             new UpdateCmd(),
             new SettingsCmd(),
-            new ClosewinCmd()
+            new ClosewinCmd(),
+            new HardwareCmd(),
         };
     }
 
@@ -44,7 +45,12 @@ public static class DiscordCommand
             await slashCommand.RespondAsync("Command not found", null, false, true);
         }
 
-        var result = command?.Execute(slashCommand);
+        Embed? result = command?.Execute(slashCommand);
+        if (result == null)
+        {
+            // komendy zwracające null (gdyż respond został wysłany w commandAction) nie będą wysyłały wiadomości po wykonaniu komend
+            return;
+        }
         var commandOptions =
             slashCommand.Data.Options.Count > 0 ? slashCommand.Data.Options.ElementAt(0).Value as string : "";
         Console.ForegroundColor = ConsoleColor.DarkCyan;
