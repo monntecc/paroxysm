@@ -18,23 +18,37 @@ public class WallpaperCmd : ISlashCommand
                 Name = "url",
                 Description = "Link do obrazu",
                 Type = ApplicationCommandOptionType.String,
-                IsRequired = true
+                IsRequired = false,
+            },
+            new SlashCommandOptionParams
+            {
+                Name = "attachment",
+                Description = "Zdjęcie",
+                Type = ApplicationCommandOptionType.Attachment,
+                IsRequired = false,
             }
             }
         };
     }
 
-    public Embed Execute(SocketSlashCommand slashCommand)
+    public Embed? Execute(SocketSlashCommand slashCommand)
     {
+
+        slashCommand.RespondAsync(null, new[] { DiscordEmbed.CreateWithText(Color.Blue, "Changing in progress.. please wait", "This command is being executed, it may take few seconds to complete", Environment.UserName, null) }, false, true);
         var parameters = slashCommand.Data;
         
         if (parameters is null)
         {
             return DiscordEmbed.CreateWithText(Color.Red, "Command executed with errors",
-                "Unknown option parameters.", Environment.UserName, null);
+                "Nie podano danych do zdjęcia", Environment.UserName, null);
         }
 
-        var url = parameters.Options.ElementAt(0).Value;
-        return ChangeWallpaperAction.Follow(url as string).Result;
+        object img = parameters.Options.ElementAt(0).Value;
+
+        var res = ChangeWallpaperAction.Follow(img).Result;
+
+        slashCommand.FollowupAsync(null, new[] { res }, false, true);
+
+        return null;
     }
 }
