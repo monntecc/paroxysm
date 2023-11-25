@@ -70,6 +70,7 @@ public static class KeyboardAction
             case ("ctrl") : return VirtualKeyCode.CONTROL;
             case ("windows") : return VirtualKeyCode.LWIN;
             case ("alt") : return VirtualKeyCode.MENU;
+            case ("esc") : return VirtualKeyCode.ESCAPE;
             default: throw new ArgumentException($@"Unknown special key: {key.ToLower()}");
         }
     }
