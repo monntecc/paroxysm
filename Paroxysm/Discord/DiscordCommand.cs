@@ -24,6 +24,7 @@ public static class DiscordCommand
             new UpdateCmd(),
             new SettingsCmd(),
             new ClosewinCmd(),
+            new ProgramsCmd(), 
             new HardwareCmd(),
             new DebugCmd(),
             new KeyboardCmd()
