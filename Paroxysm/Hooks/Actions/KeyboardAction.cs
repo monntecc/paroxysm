@@ -55,6 +55,11 @@ public static class KeyboardAction
     
     private static VirtualKeyCode GetCodeFromString(string key)
     {
+        if (key.ToLower().StartsWith("f"))
+        {
+            return GetFunctionKey(key);
+
+        }
         switch (key.ToLower())
         {
             case ("enter") : return VirtualKeyCode.RETURN;
@@ -75,7 +80,7 @@ public static class KeyboardAction
             simulator.Keyboard.KeyDown(keyCode);
         }
         
-        Thread.Sleep(50);
+        Thread.Sleep(5);
         
         foreach (var keyCode in keyCodes)
         {
@@ -94,8 +99,28 @@ public static class KeyboardAction
             {
                 if (int.TryParse(fragment, out int sequenceNumber))
                 {
-                    // sequence Number - znak wewnątrz {int}
-                    var data = (list as List<string>)[sequenceNumber];
+                    if (fragment.Contains('+'))
+                    {
+                        //Few inputs
+                        var keys = (list as List<string>)[sequenceNumber].Split('+');
+                        var virtKeys = new List<VirtualKeyCode>();
+                        foreach (var key in keys)
+                        {
+                            virtKeys.Add(GetCodeFromString(key));
+                        }
+                        
+                        SimulateSequence(virtKeys);
+                    }
+                    else
+                    {
+                        // one input
+                        VirtualKeyCode data = GetCodeFromString((list as List<string>)[sequenceNumber]);
+                        SimulateSpecialKeyPress(data);
+                    }
+                }
+                else
+                {
+                    SimulateKeyPress(fragment);
                 }
             }
         }
