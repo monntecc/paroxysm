@@ -69,6 +69,7 @@ public static class KeyboardAction
             case ("capslock") : return VirtualKeyCode.CAPITAL;
             case ("ctrl") : return VirtualKeyCode.CONTROL;
             case ("windows") : return VirtualKeyCode.LWIN;
+            case ("alt") : return VirtualKeyCode.MENU;
             default: throw new ArgumentException($@"Unknown special key: {key.ToLower()}");
         }
     }
@@ -90,7 +91,6 @@ public static class KeyboardAction
 
     private static void SimulateSequenceWithSpecial(string text, IEnumerable<string> list)
     {
-        int index = 0;
         string[] fragments = text.Split('{', '}');
 
         foreach (var fragment in fragments)
@@ -99,7 +99,7 @@ public static class KeyboardAction
             {
                 if (int.TryParse(fragment, out int sequenceNumber))
                 {
-                    if (fragment.Contains('+'))
+                    if ((list as List<string>)[sequenceNumber].Contains('+'))
                     {
                         //Few inputs
                         var keys = (list as List<string>)[sequenceNumber].Split('+');
