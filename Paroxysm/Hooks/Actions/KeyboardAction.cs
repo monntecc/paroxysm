@@ -16,7 +16,7 @@ public static class KeyboardAction
     {
         var placeholders = new List<string>();
 
-        Regex regex = new Regex(pattern);
+        Regex regex = new(pattern);
 
         string result = regex.Replace(input, match =>
         {
@@ -60,19 +60,20 @@ public static class KeyboardAction
             return GetFunctionKey(key);
 
         }
-        switch (key.ToLower())
+
+        return key.ToLower() switch
         {
-            case ("enter") : return VirtualKeyCode.RETURN;
-            case ("backspace") : return VirtualKeyCode.BACK;
-            case ("tab") : return VirtualKeyCode.TAB;
-            case ("shift") : return VirtualKeyCode.SHIFT;
-            case ("capslock") : return VirtualKeyCode.CAPITAL;
-            case ("ctrl") : return VirtualKeyCode.CONTROL;
-            case ("windows") : return VirtualKeyCode.LWIN;
-            case ("alt") : return VirtualKeyCode.MENU;
-            case ("esc") : return VirtualKeyCode.ESCAPE;
-            default: throw new ArgumentException($@"Unknown special key: {key.ToLower()}");
-        }
+            ("enter") => VirtualKeyCode.RETURN,
+            ("backspace") => VirtualKeyCode.BACK,
+            ("tab") => VirtualKeyCode.TAB,
+            ("shift") => VirtualKeyCode.SHIFT,
+            ("capslock") => VirtualKeyCode.CAPITAL,
+            ("ctrl") => VirtualKeyCode.CONTROL,
+            ("windows") => VirtualKeyCode.LWIN,
+            ("alt") => VirtualKeyCode.MENU,
+            ("esc") => VirtualKeyCode.ESCAPE,
+            _ => throw new ArgumentException($@"Unknown special key: {key.ToLower()}"),
+        };
     }
     
     private static void SimulateSequence(IEnumerable<VirtualKeyCode> keyCodes)
@@ -100,10 +101,10 @@ public static class KeyboardAction
             {
                 if (int.TryParse(fragment, out int sequenceNumber))
                 {
-                    if ((list as List<string>)[sequenceNumber].Contains('+'))
+                    if (((List<string>)list)[sequenceNumber].Contains('+'))
                     {
                         //Few inputs
-                        var keys = (list as List<string>)[sequenceNumber].Split('+');
+                        var keys = ((List<string>)list)[sequenceNumber].Split('+');
                         var virtKeys = new List<VirtualKeyCode>();
                         foreach (var key in keys)
                         {
@@ -129,7 +130,7 @@ public static class KeyboardAction
     
     public static Embed Follow(SocketSlashCommand slashCommand)
     {
-        string inputText = slashCommand.Data.Options.ElementAt(0).Value as string;
+        string inputText = (string)slashCommand.Data.Options.ElementAt(0).Value;
         var result = GetData(inputText);
 
         if (result.placeholders.Count != 0)
