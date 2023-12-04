@@ -17,12 +17,22 @@ public class ClosewinCmd : ISlashCommand
         return new SlashCommandOptions
         {
             Name = "close",
-            Description = "Zamyka okno na którym użytkonik trzyma focus"
+            Description = "Zamyka okno na którym użytkonik trzyma focus",
+            Params = new []
+            {
+                new SlashCommandOptionParams
+                {
+                    Name = "process_id",
+                    Description = "ID of a process. Use /programs to get list",
+                    IsRequired = false,
+                    Type = ApplicationCommandOptionType.Integer,
+                }
+            }
         };
     }
 
     public Embed Execute(SocketSlashCommand slashCommand)
     {
-        return CloseWinAction.Follow();
+        return CloseWinAction.Follow(slashCommand);
     }
 }
